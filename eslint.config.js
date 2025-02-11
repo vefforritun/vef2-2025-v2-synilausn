@@ -7,11 +7,8 @@ export default [
   {
     ...pluginJs.configs.recommended,
     rules: {
-      // Disallow console.log
-      'no-console': [
-        'error',
-        { allow: ['info', 'group', 'groupEnd', 'error'] },
-      ],
+      // Disallow console.log, see lib/logger
+      'no-console': ['error'],
     },
   },
 ];

@@ -7,11 +7,9 @@
     "node": "22"
   },
   "scripts": {
-    "build": "run-s build:*",
-    "build:clean": "rimraf dist",
-    "build:generate": "node src/generate.js",
-    "build:copy-public": "cpy public dist --flat",
-    "dev": "browser-sync start --serveStatic ./dist --server --files ./dist/*.* ./dist/*.*",
+    "dev": "node --env-file=.env --watch-path=./src ./src/app.js",
+    "start": "node --env-file=.env ./src/app.js",
+    "setup": "node --env-file=.env ./src/setup.js",
     "lint": "eslint src",
     "test": "node --test --experimental-test-module-mocks",
     "test:watch": "node --test --watch --experimental-test-module-mocks",
@@ -21,12 +19,13 @@
     "@eslint/js": "^9.19.0",
     "browser-sync": "^3.0.3",
     "eslint": "^9.19.0",
-    "globals": "^15.14.0",
-    "http-server": "^14.1.1"
+    "globals": "^15.14.0"
   },
   "dependencies": {
-    "cpy-cli": "^5.0.0",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^6.0.1"
+    "pg": "^8.13.2",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
+    "xss": "^1.0.15",
+    "ejs": "^3.1.10"
   }
 }

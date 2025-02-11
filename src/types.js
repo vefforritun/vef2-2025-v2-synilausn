@@ -23,4 +23,26 @@
  * @property {Question[]} questions Questions in the category
  */
 
+/**
+ * @typedef {Object} DatabaseCategory
+ * @property {number} id
+ * @property {string} name
+ * @property {string} slug
+ */
+
+/**
+ * @typedef {Object} DatabaseQuestion
+ * @property {number} id
+ * @property {string} text
+ * @property {number} category_id
+ */
+
+/**
+ * @typedef {Object} DatabaseAnswer
+ * @property {number} id
+ * @property {string} text
+ * @property {number} question_id
+ * @property {boolean} correct
+ */
+
 export default {};
