@@ -1,13 +1,12 @@
 import express from 'express';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { environment } from './lib/environment.js';
 import { handler404, handlerError } from './lib/handlers.js';
 import { logger } from './lib/logger.js';
-import { indexRouter } from './routes/index-routes.js';
+import { router } from './routes/routes.js';
 
-import { formatDate } from './lib/date.js';
-import { getDatabase } from './lib/db.js';
+import { getQuestionDatabase } from './lib/db.js';
 import { isInvalid } from './lib/is-invalid.js';
 
 const env = environment(process.env, logger);
@@ -26,18 +25,17 @@ app.set('view engine', 'ejs');
 
 app.locals = {
   isInvalid,
-  formatDate,
 };
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', indexRouter);
+app.use('/', router);
 app.use(express.static(join(path, '../public')));
 app.use(handler404);
 app.use(handlerError);
 
 const server = app.listen(port, () => {
-  console.info(`🚀 Server running at http://localhost:${port}/`);
+  logger.info(`🚀 Server running at http://localhost:${port}/`);
 });
 
 process.on('SIGTERM', async () => {
@@ -48,7 +46,7 @@ process.on('SIGTERM', async () => {
     }
   });
 
-  if (!(await getDatabase()?.close())) {
+  if (!(await getQuestionDatabase()?.db.close())) {
     logger.error('error closing database connection');
   }
 });

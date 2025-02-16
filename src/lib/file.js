@@ -1,4 +1,5 @@
 import { readFile as fsReadFile, mkdir, stat } from 'node:fs/promises';
+import { logger } from './logger.js';
 
 /**
  * Check if a directory exists.
@@ -14,7 +15,7 @@ export async function direxists(dir) {
     const info = await stat(dir);
     return info.isDirectory();
   } catch (e) {
-    console.error('unable to check if directory exists', dir, e.message);
+    logger.error('unable to check if directory exists', dir, e.message);
     return false;
   }
 }
@@ -30,7 +31,7 @@ export async function createDirIfNotExists(dir) {
     }
     return true;
   } catch (e) {
-    console.error('unable to create directory', dir, e.message);
+    logger.error('unable to create directory', dir, e.message);
     return false;
   }
 }
@@ -47,7 +48,7 @@ export async function readFile(file, { encoding = 'utf8' } = {}) {
 
     return content.toString(encoding);
   } catch (e) {
-    console.error('unable to read file', file, e.message);
+    logger.error('unable to read file', file, e.message);
     return null;
   }
 }

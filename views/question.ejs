@@ -1,0 +1,26 @@
+<section class="question">
+  <h2>Spurning <%= index %></h2>
+  <div class="question__text">
+    <%- question.question %>
+  </div>
+  <form class="question__form">
+    <%
+    let i = 0;
+    for (const answer of question.answers.sort(() => Math.random() - 0.5)) {
+      i++;
+    %>
+      <div class="answer">
+        <input
+          class="answer__input"
+          data-correct="<%=answer.correct%>"
+          type="radio"
+          name="question<%=index%>"
+          id="question<%=index%><%=i%>"
+        />
+        <label class="answer__label" for="question<%=index%><%=i%>"
+          ><%-answer.answer-%></label>
+      </div>
+    <% } %>
+    <button>Svara</button>
+  </form>
+</section>

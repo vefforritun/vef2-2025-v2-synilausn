@@ -1,0 +1,16 @@
+<%- include('header') -%>
+
+<% if (!locals.category) { %>
+  <p>Engar spurningar!</p>
+<% } else { %>
+  <section>
+    <div class="questions">
+      <% for (let i = 0; i < locals.category.questions.length; i++) { %>
+        <%- include('question', { question: locals.category.questions[i], index: i+1}) -%>
+      <% } %>
+    </div>
+    <p><a href="/">Til baka</a></p>
+  </section>
+<% } %>
+
+<%- include('footer') -%>

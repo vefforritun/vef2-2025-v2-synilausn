@@ -35,6 +35,7 @@
  * @property {number} id
  * @property {string} text
  * @property {number} category_id
+ * @property {string} [category_name]
  */
 
 /**

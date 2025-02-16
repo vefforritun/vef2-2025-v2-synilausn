@@ -1,0 +1,18 @@
+<%- include('header') -%>
+
+<% if (!locals.categories) { %>
+  <p>Engir flokkar!</p>
+<% } else { %>
+  <section>
+    <h2>Spurningaflokkar</h2>
+    <ul>
+      <% for (const category of locals.categories) { %>
+        <li><a href="/spurningar/<%= category.slug %>"><%= category.name %></a></li>
+      <% } %>
+    </ul>
+  </section>
+<% } %>
+
+<p><a href="/spurningar/bua-til">Búa til spurningu.</a></p>
+
+<%- include('footer') -%>

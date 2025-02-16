@@ -9,7 +9,6 @@ function submitHandler(e) {
   const selected = form.querySelector(':checked');
 
   if (!correct) {
-    console.error('correct answer not found');
     return;
   }
 

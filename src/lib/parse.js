@@ -4,6 +4,8 @@
  * @typedef {import('../types.js').QuestionCategory} QuestionCategory
  */
 
+import { logger } from './logger.js';
+
 /**
  * Parse a potential file item, return null if invalid.
  * @param {unknown} potentialItem Potential file item.
@@ -39,12 +41,12 @@ export function parseIndexFile(indexFileData) {
   try {
     json = JSON.parse(indexFileData);
   } catch (e) {
-    console.error('unable to parse index file', e);
+    logger.error('unable to parse index file', e);
     return [];
   }
 
   if (!Array.isArray(json)) {
-    console.error('index file is not an array');
+    logger.error('index file is not an array');
     return [];
   }
 
@@ -53,7 +55,7 @@ export function parseIndexFile(indexFileData) {
       const parsed = parseIndexFileItem(item);
 
       if (!parsed) {
-        console.error(`invalid item at index`, index, item);
+        logger.error(`invalid item at index`, index, item);
       }
 
       return parsed;
@@ -146,7 +148,7 @@ export function parseQuestionCategory(data) {
   try {
     json = JSON.parse(data);
   } catch (e) {
-    console.error('unable to parse question category', e);
+    logger.error('unable to parse question category', e);
     return null;
   }
 
