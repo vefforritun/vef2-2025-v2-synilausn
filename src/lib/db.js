@@ -289,6 +289,39 @@ export class QuestionDatabase {
 
     return this.zipQuestionsAndAnswers(questions, answers);
   }
+
+  /**
+   * Create a question in the database.
+   * @param {string} question
+   * @param {string} categoryId
+   * @param {string[]} answers
+   * @param {number} correctAnswerIndex
+   * @returns {Promise<boolean>}
+   */
+  async createQuestion(question, categoryId, answers, correctAnswerIndex) {
+    const client = await this.db.connect();
+    if (!client) {
+      return false;
+    }
+
+    const questionResult = await this.insertQuestion(
+      { question, answers: [] },
+      categoryId
+    );
+    if (!questionResult) {
+      return false;
+    }
+
+    await this.insertAnswers(
+      answers.map((answer, i) => ({
+        answer,
+        correct: i === correctAnswerIndex,
+      })),
+      questionResult.id.toString()
+    );
+
+    return true;
+  }
 }
 
 /** @type {QuestionDatabase | null} */

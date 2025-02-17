@@ -1,0 +1,63 @@
+<%- include('header') -%>
+
+<% if (locals.message) { %>
+  <p><%= locals.message %></p>
+<% } %>
+
+<section>
+  <h2>Bæta við spurningu</h2>
+
+  <% if (locals.errors?.length) { %>
+    <h3 class="errors__title">Villur við skráningu:</h3>
+    <ul class="errors">
+      <% locals.errors.forEach((error) => { %>
+        <li class="error"><label for="<%= error.path %>"><%= error.msg %></label></li>
+      <% }); %>
+    </ul>
+  <% } %>
+
+  <form method="post" action="/spurningar/bua-til" class="form">
+    <div class="field<%= locals.isInvalid('question', locals.errors) ?  ' invalid' : '' %>">
+      <label for="question">Spurning:</label>
+      <textarea id="question" name="question"><%= locals.data?.question ?? '' %></textarea>
+    </div>
+    <div class="field<%= locals.isInvalid('category', locals.errors) ?  ' invalid' : '' %>">
+      <label for="category">Flokkur:</label>
+      <select id="category" name="category">
+        <option>--Veldu flokk--</option>
+        <% for (const category of locals.categories) { %>
+          <option
+            <%= (locals.data?.category ?? '') === category.id.toString() ? 'selected' : '' %>
+            value="<%= category.id %>"
+          >
+            <%= category.name %>
+          </option>
+        <% } %>
+      </select>
+    </div>
+    <div class="answers">
+      <% for (let i = 0; i < 4; i++) { %>
+        <div class="field<%= locals.isInvalid(`answers[${i}]`, locals.errors) ?  ' invalid' : '' %>">
+          <label for="answers[<%= i %>]">Svar <%= i + 1 %></label>
+          <textarea
+            name="answers"
+            id="answers[<%=i %>]"
+          ><%= locals.data?.answers?.[i] ?? '' %></textarea>
+          <label class="correct">
+            Rétt svar
+            <input
+              type="radio"
+              name="correct"
+              value="<%= i %>"
+              <%= (locals.data?.correct ?? '') === i.toString() ? 'checked' : '' %>
+            >
+          </label>
+        </div>
+      <% } %>
+    </div>
+    <button class="button">Bæta við spurningu</button>
+  </form>
+  <p class="back"><a href="/">Til baka</a></p>
+</section>
+
+<%- include('footer') -%>

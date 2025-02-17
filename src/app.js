@@ -1,4 +1,6 @@
 import express from 'express';
+import session from 'express-session';
+
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { environment } from './lib/environment.js';
@@ -15,7 +17,14 @@ if (!env) {
   process.exit(1);
 }
 
-const { port } = env;
+const { port, sessionSecret } = env;
+
+const sessionOptions = {
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false,
+};
+
 const path = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
@@ -28,6 +37,7 @@ app.locals = {
 };
 
 app.use(express.urlencoded({ extended: true }));
+app.use(session(sessionOptions));
 
 app.use('/', router);
 app.use(express.static(join(path, '../public')));
